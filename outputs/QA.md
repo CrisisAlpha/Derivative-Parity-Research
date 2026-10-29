@@ -82,9 +82,11 @@ source snapshot, not subsequent research commits.
 
 GitHub initially confirmed a public, completely empty repository: no commits or
 branches, including no `main`. The research history has an empty root commit
-`d38727a` followed by the source import and implementation. No `main` was created
-or modified. Creating an empty `main` at that exact root commit requires resolving
-the user's explicit "do not modify main" constraint before a draft PR can exist.
+`d38727a` followed by the source import and implementation. The user explicitly
+approved creating the missing `main` at empty commit
+`d38727a701d22ebaed84a6ba6965933e8c921ad3` solely to provide the PR base.
+GitHub confirms that exact ref; it contains zero files. All research source and
+implementation changes remain on `research/ot-lean-foundations`.
 GitHub confirmed both push-triggered CI runs **PASS** for implementation commit
 `32077c46880e81bd7f0492a7a53e476677681ab5`:
 
@@ -94,6 +96,9 @@ GitHub confirmed both push-triggered CI runs **PASS** for implementation commit
 The Lean job log explicitly shows `Built StaticCertificate`, `Built TwoDateCertificate`,
 `Built LeanNotes`, `Build completed successfully`, and `Axiom allowlist PASS (21 declarations)`.
 These are remote Linux results in addition to the local Windows results above.
-The subsequent evidence-only commit updates documentation, not the verified proof/code files.
-The draft PR has not been created: approval to create the missing empty `main`
-base is pending. No `main` ref has been created or modified by this work.
+Subsequent evidence/status commits update documentation, not the verified proof/code files.
+GitHub confirmed [draft PR #1](https://github.com/CrisisAlpha/Derivative-Parity-Research/pull/1)
+is OPEN and DRAFT, targeting `main` from `research/ot-lean-foundations`. It includes
+the theorem/CI checklist and remaining formal obligations. It has not been merged.
+The GitHub connector returned integration-permission errors for branch/PR creation;
+the existing authenticated Git and GitHub CLI connections completed the approved actions.

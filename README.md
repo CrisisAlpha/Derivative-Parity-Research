@@ -1,6 +1,6 @@
 # Derivative Parity Research: Conditional and Path-Dependent Event Contracts
 
-**Status: public research repository, initial PR preparation (October 29, 2026).**
+**Status: public research repository, [draft PR #1](https://github.com/CrisisAlpha/Derivative-Parity-Research/pull/1) (October 29, 2026).**
 The source tree is imported at the repository root from the v0.2 handoff.
 All examples are synthetic. See the [claim register](research/claim_registry.md)
 for the distinction between compiled Lean theorems, exact rational certificates,
