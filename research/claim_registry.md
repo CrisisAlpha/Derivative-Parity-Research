@@ -2,11 +2,12 @@
 
 As of **2026-10-29 (Asia/Hong_Kong)**: local Python verification and the pinned
 Lean build **PASS**. The initial 9 tests were independently reproduced; the
-expanded suite passes 28 tests. `lake build` and the 21-declaration axiom audit
+expanded suite passes 58 tests after the referee fixes. `lake build` and the 21-declaration axiom audit
 both exit 0. GitHub independently confirmed passing
 [Python CI](https://github.com/CrisisAlpha/Derivative-Parity-Research/actions/runs/40860564196)
 and [Lean CI](https://github.com/CrisisAlpha/Derivative-Parity-Research/actions/runs/40860564091)
-at implementation commit `32077c4`. All scenario data are synthetic.
+at initial implementation commit `32077c4`; the referee-fix head and its CI links
+are recorded in the update on PR #1. All scenario data are synthetic.
 
 | ID | Exact claim | Status | Evidence and boundary |
 | --- | --- | --- | --- |
@@ -21,10 +22,24 @@ at implementation commit `32077c4`. All scenario data are synthetic.
 | M-01-J | Adding joint Q(110,130)=1/5 gives two-date MOT [1/10,1/5] | **RATIONAL_CERTIFIED** | `two_joint_mot`; checks both history gains and the extra quote. Not Lean-checked. |
 | M-02 | Three-date rebound: ordinary OT [0,1/4], full-history MOT [0,1/16] | **RATIONAL_CERTIFIED** | `three_ot`, `three_mot` in `data/synthetic/rational_certificates.json`; all 48 state inequalities, all marginal equations, and all 10 history gains checked exactly. Lean certificates remain open. |
 | M-03 | Three-date discrete barrier: ordinary OT [1/4,1/2], full-history MOT [11/40,3/8] | **RATIONAL_CERTIFIED** | `barrier_ot`, `barrier_mot`; same exact 48-state and 10-history checks. Lean certificates and continuous monitoring remain open. |
-| C-01 | Intersection settlement differs from a normalized conditional ratio, requiring positive conditioning price | **CONJECTURE_OR_HYPOTHESIS** (formal obligation only) | Economic/mathematical assumptions stated in `research/settlement_semantics.md` and manuscript; ratio code numerically tested under S-05. No named Lean ratio theorem is claimed. |
+| C-01 | Q(B given A) = Q(A intersect B)/Q(A) for Q(A)>0; an intersection token has a different settlement payoff from a normalized conditional claim | **ESTABLISHED_NOT_FORMALIZED** | Established probability identity, not a conjecture. Event/subset and positive-denominator requirements are explicit in `conditional_ratio_interval` and its regression tests. Lean formalization remains open. |
+| S-07 | Requiring equivalence to full-support P makes the six-quote Boolean range (3/20,11/50) and the two-date MOT range (1/12,1/4); the same numbers are unattained infimum/supremum | **ESTABLISHED_NOT_FORMALIZED** | Explicit parametrization, strictly positive witnesses and convex-mixture argument in `research/dynamic_coherence.md`; rational regression checks in `tests/test_equivalent_laws.py`. These deductions are not promoted to Lean-checked facts. |
 | E-01 | Live market quotes yield useful out-of-sample tightening or executable violations | **CONJECTURE_OR_HYPOTHESIS** | No live market dataset, trades or empirical validation; see `research/hypotheses_and_experiments.md`. |
 
 ## Evidence and accepted foundations
+
+All attained extrema in S-01 and M-01 are for **nonnegative** admissible laws,
+which may have zero masses. Their compiled `Feasible` predicates do not assume
+equivalence to a reference P. The distinction in S-07 leaves those proofs and
+the original numerical examples unchanged. A general density argument for
+strictly positive laws additionally requires a feasible full-support law.
+
+`research/formal_claims.json` is the exact theorem inventory for every row marked
+FORMALIZED_AND_COMPILED. `scripts/check_lean.py` checks equality of the promoted
+claim IDs, inventory and explicit `#print axioms` list before compiling and
+checking every audit result. Alternate assumption syntax (`constant`, `constants`,
+`axioms`) is rejected along with `axiom` and proof gaps; the introspection command
+`#print axioms Name` is allowed. Negative tests cover omissions and those declarations.
 
 - Lean 4.20.0 (`77cfc4d1a4f6`), mathlib v4.20.0 at
   `c211948581bde9846a99e32d97a03f0d5307c31e`; transitive pins in `lake-manifest.json`.
@@ -39,9 +54,10 @@ at implementation commit `32077c4`. All scenario data are synthetic.
   rechecked with exact Fraction arithmetic against an independently constructed model.
 - `test_exact_model_matches_solver_instances` checks the exact matrices/payoffs
   against the numerical examples. This is NOT a formal bridge or verified solver.
-- Commands, versions, setup failures and final outcomes: `outputs/QA.md` and logs
-  in `outputs/validation/`. A fresh LaTeX build was not run; the imported PDF is stale
-  relative to the updated manuscript source.
+- Commands, versions, failures and final outcomes: `outputs/QA.md` and logs
+  in `outputs/validation/`. The current manuscript now builds with Tectonic 0.15.0;
+  the six-page PDF passes text, figure, reference and source-hash checks. The old
+  PDF is explicitly historical at `manuscript/historical/handoff-v0.2.pdf`.
 
 ## Remaining proof obligations
 

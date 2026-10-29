@@ -34,10 +34,22 @@ No martingale condition is imposed on nontradable event histories. Ratios need
 a positive conditioning price and compatible settlement normalization; an
 intersection token is not automatically a conditional-probability token.
 
+The feasible laws may contain zero masses: neither compiled certificate assumes
+equivalence to a specified reference P. Under equivalence to full-support P,
+the endpoint witnesses are excluded; the explicit positive-mixture arguments in
+`dynamic_coherence.md` give infimum/supremum rather than endpoint attainment for
+the static and two-date examples. Those additional arguments are not Lean-checked.
+"Full-history" refers only to the supplied natural price filtration, not an
+arbitrary enlarged information filtration.
+
 ## Trust boundary and CI
 
 Run `python scripts/check_lean.py` with `lake` on PATH. It scans every project Lean
 file, runs **lake build**, then typechecks `AxiomAudit.lean` with warnings as errors.
+It first requires exact coverage of every promoted claim in
+`research/formal_claims.json` and the `#print axioms` list. The source policy rejects
+`constant`, `constants`, `axioms`, and `axiom` declarations, while allowing the
+explicit `#print axioms Name` introspection command.
 It requires output for every audited declaration and permits only `propext`,
 `Classical.choice`, and `Quot.sound`; a missing audit, unexpected axiom, proof gap,
 unsafe declaration or native-decision shortcut fails the command. The real-valued

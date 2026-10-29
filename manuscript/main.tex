@@ -41,6 +41,8 @@ Differences in oracle criteria, observation windows, collateral, fees,
 settlement delays and tradeability invalidate naive cross-market parity.
 A static price interval is a \emph{consistency bound} under the hypotheses,
 not automatically a directly executable arbitrage.
+The admissible laws in this note may assign zero mass to settlement states.
+They are not assumed equivalent to a specified physical reference measure.
 
 Conditional-token positions can be intersections of distinct conditions, but
 a position paying on $A\cap B$ is not itself a normalized conditional claim
@@ -59,12 +61,20 @@ modeling quote intervals $[\ell_j,u_j]$, consider
 & Dq=0\bigr\},
 \end{align}
 where $D$ optionally encodes structural restrictions. The sharp robust
-interval for target payoff $H$ is
+interval for target payoff $H$, assuming $\QQ$ is nonempty, is
 \begin{equation}
 \underline\pi(H)=\min_{q\in\QQ}H^\top q,\qquad
 \overline\pi(H)=\max_{q\in\QQ}H^\top q.
 \label{eq:bounds}
 \end{equation}
+Here $\mathbb R_+^N$ means $q_i\ge0$, so the feasible set is closed and
+the extrema are attained. Equivalence $Q\sim P$ to a full-support reference
+law $P$ would require $q_i>0$ on every atom. The strictly positive class
+need not attain its bounds: one must use infimum and supremum there.
+If a feasible full-support law $q_*$ exists, mixing it with any feasible
+boundary law preserves the linear constraints and approaches that boundary.
+Only under this additional existence hypothesis do the two classes have
+the same extremal values; endpoint attainment is a separate question.
 For exact quotes $h_j^\top q=p_j$ and $D=0$, finite-dimensional LP duality
 yields
 \begin{align}
@@ -99,12 +109,25 @@ q^-=(17,8,0,15,13,7,25,15)/100,\qquad
 q^+=(10,15,7,8,20,0,18,22)/100.
 \]
 Both are nonnegative, sum to one and satisfy all six quote equations.
+For an explicit equivalence check, put $x=Q(ABC)$. All admissible masses are
+\[
+q(x)=(.32-x,\ x-.07,\ x-.15,\ .30-x,\ x-.02,\ .22-x,\ .40-x,\ x).
+\]
+Thus all eight masses are positive exactly when $.15<x<.22$.
+The endpoint laws have respectively zero mass at 010 and 101, and are not
+equivalent to full-support $P$. For $0<t<1$, $(1-t)q^-+tq^+$ is strictly
+positive and has target value $.15+.07t$. Hence $.15$ and $.22$ remain
+the infimum and supremum under equivalence, but neither is attained there.
+This algebraic demonstration is separate from the compiled nonnegative-law
+theorem; no Lean equivalence theorem is claimed.
 No martingale assumption is made for these Boolean events, including
 nontradable news, election or sports outcomes.
 The synthetic input $p_{AB}=0.40$ fixes the conditioning denominator, hence
 $Q(C\mid A\cap B)\in[0.375,0.55]$. With only the three marginals,
 the interval for $Q(ABC)$ is $[0,0.45]$. With $AB$ and $BC$ added,
 it shrinks to $[0.15,0.30]$.
+In the full-support six-quote class the conditional range is instead
+$(0.375,0.55)$, since the denominator remains $0.40$.
 
 \section{Example II: a two-date price-path digital}
 Here the state is a \emph{tradable}, appropriately discounted asset price,
@@ -142,6 +165,17 @@ marginals yields nonnegative complementary rows. Since the unconditional
 mean of $S_2$ equals that of $S_1$, the remaining row is a martingale too.
 Both bounds are attained.
 \end{proof}
+Attainment here allows zero joint masses. The midpoint of the two endpoint
+laws is the strictly positive feasible martingale law
+\[
+q_*=(5,3,3,1,1,3,3,5)/24.
+\]
+If full support is required, then $u,v>0$ and $w,z<1/4$, so
+\[
+u+v<z<1/4,\qquad 3(u+v)=1/2-w+v>1/4.
+\]
+The values $1/12$ and $1/4$
+are then unattained infimum and supremum, approached by positive mixtures.
 \begin{proposition}[Explicit sub- and superhedges]
 Let $G=\one_{\{S_1=110\}}(S_2-S_1)$ be the gain on a predictable
 self-financing position in the discounted underlying. Then for every
@@ -181,7 +215,11 @@ $t=1/(a^\top q)$. Then $a^\top y=1$, $\one^\top y=t$ and
 $\ell_jt\le h_j^\top y\le u_jt$ become linear constraints.
 This gives sharp fractional conditional bounds with market quote bands,
 subject to the same common-state and positive-denominator assumptions.
-The accompanying code implements the transformation and unit tests.
+The accompanying event-specific API requires $a,ab\in\{0,1\}^N$ and
+$ab\le a$ statewise; arbitrary payoff ratios are outside its contract.
+It also requires a finite cutoff $0<\delta\le1$, which explicitly restricts
+the feasible laws. The identity $Q(B\mid A)=Q(A\cap B)/Q(A)$ for $Q(A)>0$
+is established probability theory awaiting Lean formalization, not a conjecture.
 
 \section{Example III: the full three-date filtration matters}
 Take $S_1\in\{90,110\}$ and $S_2\in\{70,90,110,130\}$ with the
@@ -209,6 +247,11 @@ mass. These three-date certificates are checked in Python rational arithmetic;
 they are not Lean-checked. The inequality is a discrete
 monitoring result only; continuously monitored crossings need a
 different state space and additional assumptions.
+``Full-history'' here means the complete supplied price prefix in the
+natural price filtration. It does not mean an arbitrary enlarged filtration
+containing unencoded news or other information. Conditional expectations on
+zero-mass histories are not defined by division; the displayed undivided
+zero-gain equations still make sense and hold automatically on those histories.
 For comparison, the price of touching 130 at any of the \emph{three}
 monitoring dates is $[0.25,0.50]$ under ordinary OT and
 $[0.275,0.375]$ under full-filtration MOT.
@@ -256,8 +299,8 @@ research software, not a trading system or investment recommendation.
 
 \section{Verification boundary}
 The exact witness tables and dual coefficients are recorded in
-\texttt{research/rational\_certificates.md}, with reproducible checks in
-\texttt{tests/test\_certificates.py}. A floating-point solver is used only
+\path{research/rational_certificates.md}. Reproducible checks are in
+\path{tests/test_certificates.py}. A floating-point solver is used only
 to propose candidate witnesses; rational reconstruction must pass every exact
 constraint before being accepted. Lean 4.20.0 compiles the static three-event and two-date MOT sharp-bound
 certificates over all real feasible laws; the audited dependencies are only
@@ -269,6 +312,7 @@ continuous-time extension, or executable traded arbitrage is claimed.
 % Self-contained bibliography for local builds without a BibTeX executable.
 % references.bib is also supplied for later Overleaf/BibTeX migration.
 \begin{thebibliography}{9}
+\raggedright
 \bibitem[Beiglbock et~al.(2013)]{beiglbock2013model}
 M.~Beiglbock, P.~Henry-Labordere, and F.~Penkner.
 Model-independent bounds for option prices---a mass transport approach.

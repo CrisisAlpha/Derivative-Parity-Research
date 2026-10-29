@@ -1,6 +1,60 @@
 # Reproduction and verification record - 2026-10-29 (Asia/Hong_Kong)
 
-## Actual local outcomes
+## Scientific referee follow-up
+
+The findings P0-A/P0-B/P0-C/P1 in the user's task were checked against the actual
+source and addressed on `research/ot-lean-foundations`. The separately named
+`PR1_SCIENTIFIC_REVIEW.md` attachment was not visible in the workspace, Downloads,
+Documents or PR discussion; its local path was requested. No claim is made to
+have read that missing file or exhausted additional findings it may contain.
+
+| Check | Actual local outcome |
+| --- | --- |
+| `python -m pytest -q` | **58 passed**, including alternate Lean assumption syntax, omitted audits, equivalent-law mixtures, conditional-event preconditions and distinct histories |
+| `python -m parity_ot.certificates` | **PASS**, all 16 endpoints; original finite q>=0 examples unchanged |
+| `python scripts/check_lean.py` | **PASS**: source policy, 5 promoted claims/21 theorem inventory, actual pinned `lake build`, 21 axiom checks |
+| `python scripts/build_manuscript.py --tectonic <Tectonic-0.15.0 executable>` | **PASS**, current source produces six nonempty pages and one embedded comparison figure; no unresolved references/citations or missing glyphs |
+| Visual PDF inspection | All six rendered pages inspected; no clipping or missing figure/text detected |
+| Canonical default branch | Deliberately set to `main` using repository metadata; main SHA remains `d38727a701d22ebaed84a6ba6965933e8c921ad3` |
+
+The current PDF and its logs are generated review artifacts under
+`outputs/manuscript-build/` (ignored by Git); CI retains the same artifact with
+the exact source commit, input/PDF SHA256 hashes and verification report.
+The original PDF was moved unchanged to `manuscript/historical/handoff-v0.2.pdf`.
+The pinned compiler fetched its TeX dependencies from bundle v33, resolving to
+`https://data1b.fullyjustified.net/tlextras-2022.0r0.tar`. No manuscript release or
+publication was performed. Active citations use the inline bibliography;
+`references.bib` remains a migration resource. Resolving citations in a build is
+not a fresh bibliographic or novelty audit of the cited literature.
+
+Referee-fix failures and repairs (not hidden):
+
+- First expanded test run: **1 failed, 57 passed**. A new near-price-history test
+  incorrectly required bitwise equality of `2-1.000001` with the decimal literal
+  `0.999999`. The test now uses absolute tolerance 1e-15 for the floating increment
+  and still checks cross-history zero entries exactly. No existing numerical
+  example, certificate or formal proof was weakened.
+- First current-source LaTeX compilation exited 0 and passed PDF checks, but
+  reported missing Windows Fontconfig configuration, two overfull boxes and an
+  underfull bibliography line. Its transcript is retained in
+  `outputs/validation/referee/latex-first-build.txt`. Added a local Fontconfig
+  configuration for the portable Windows compiler, broke long displayed math,
+  made source paths breakable, and used a ragged-right bibliography. Rebuild
+  exited 0 without those diagnostics; no citations or figures were missing.
+
+The Lean theorem sources and pinned toolchain/mathlib revisions were not relaxed.
+All 21 audited results retain the original foundation summary: three Boolean
+lemmas use no axioms, the other 18 use only `propext`, `Classical.choice`,
+`Quot.sound`. `formal_claims.json` now mechanically links the promoted registry
+rows to every explicit audit. The finite equivalence/strict-positivity arguments
+are analytic deductions, not new Lean theorems; the conditional identity is
+established mathematics awaiting formalization, not a conjecture.
+
+The final PR comment records the exact head SHA and CI/artifact links after
+GitHub completes them. PR #1 remains draft; no main commit, merge, live market
+fetch, trade, or publication is authorized by this follow-up.
+
+## Initial-PR local outcomes (historical)
 
 | Command | Exit | Outcome |
 | --- | --- | --- |

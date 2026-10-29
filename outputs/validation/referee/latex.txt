@@ -1,0 +1,11 @@
+Compiler: tectonic 0.15.0Tectonic 0.15.0
+Command: ['C:\\Pet\\derivative-parity-tools\\tectonic-0.15.0\\tectonic.exe', '--keep-logs', '--keep-intermediates', '--outdir', 'C:\\Pet\\Derivative-Parity-Research\\outputs\\manuscript-build', 'main.tex']
+note: Running TeX ...
+note: Rerunning TeX because "main.aux" changed ...
+note: Running xdvipdfmx ...
+note: Writing `C:\Pet\Derivative-Parity-Research\outputs\manuscript-build\main.pdf` (151.62 KiB)
+note: Writing `C:\Pet\Derivative-Parity-Research\outputs\manuscript-build\main.aux` (3.13 KiB)
+note: Writing `C:\Pet\Derivative-Parity-Research\outputs\manuscript-build\main.log` (13.34 KiB)
+note: Writing `C:\Pet\Derivative-Parity-Research\outputs\manuscript-build\main.out` (2.37 KiB)
+
+COMPILER EXIT STATUS: 0

@@ -8,8 +8,9 @@ Each quantitative claim must have one of the following statuses, recorded in `re
 - **FORMALIZED_AND_COMPILED**: a named Lean 4 theorem compiles using the pinned toolchain and dependencies, with its assumptions explicit. State the theorem name, compiler result, and imported axioms when relevant.
 - **RATIONAL_CERTIFIED**: an explicit primal feasible rational witness and a statewise-valid rational dual hedge certify a finite LP endpoint. This is *not* a Lean proof unless those exact witnesses are checked inside Lean.
 - **NUMERICAL_TESTED**: floating-point solver output has passed named reproducible Python tests with tolerances; it is not an exact certificate.
+- **ESTABLISHED_NOT_FORMALIZED**: an established mathematical identity or explicit analytic deduction with stated assumptions, awaiting a named compiled Lean proof. This is distinct from a conjecture and conveys no formal-verification status.
 - **CONJECTURE_OR_HYPOTHESIS**: mathematical conjecture, proposed novelty, or untested empirical assertion.
-Never promote a status without the required evidence. Existing Lean source is **draft, not yet compiled**, despite prior Python tests passing.
+Never promote a status without the required evidence. The handoff Lean source was initially uncompiled; consult the current claim registry and actual build/axiom logs for later verification status.
 
 ## Required tooling and execution
 - Use the pinned `lean-toolchain`, `lakefile.lean`, and a consistent mathlib revision; compile by running `lake update` only when necessary and `lake build`.

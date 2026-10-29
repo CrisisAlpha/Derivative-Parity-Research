@@ -37,6 +37,8 @@ python -m parity_ot.certificates
 python scripts/render_results.py
 python scripts/execute_notebooks.py
 python scripts/check_lean.py
+python -m pip install -e '.[manuscript]'
+python scripts/build_manuscript.py  # Tectonic 0.15.0 must be on PATH
 ```
 
 The package assumes a Python environment with NumPy and SciPy; rendering also
@@ -54,9 +56,10 @@ requires Matplotlib. If installation is unavailable, setting
 - `notebooks/01_correlated_event_ot.ipynb`: prior synthetic event-coupling
   notebook (included for continuity).
 - `notebooks/02_path_martingale_ot.ipynb`: executable MOT worked examples.
-- `manuscript/main.tex` + `references.bib`: Overleaf-ready working note,
-  with propositions and proofs. Compile with `latexmk -pdf main.tex` from
-  inside `manuscript/`.
+- `manuscript/main.tex` + `references.bib`: working note with propositions and
+  proofs. The active bibliography is inline; `references.bib` is retained for
+  migration. The pinned manuscript build job compiles current source and checks
+  the resulting PDF, figure, references and input hashes.
 - `research/`: hypothesis map, novelty guardrails, market semantics,
   and a dynamic-coherence research extension.
 - `outputs/`: generated numerical summaries, charts and test audit.
@@ -88,6 +91,12 @@ Shi--Zhai (2026). Nothing in this pilot claims to supersede those results.
 ## GitHub / Overleaf / Codex
 
 The canonical target is the **public** repository `CrisisAlpha/Derivative-Parity-Research`.
+The canonical default branch is deliberately set to **`main`**. This repository
+setting does not move its commit: `main` remains the approved empty base
+`d38727a701d22ebaed84a6ba6965933e8c921ad3` until a separately authorized merge.
+All current research is reviewed on `research/ot-lean-foundations` in draft PR #1.
+The earlier automatic default of the first-pushed research branch was a bootstrap
+side effect, not the intended permanent policy. This PR does not merge anything.
 Use the first-time bootstrap instructions in `CODEX_HANDOFF.md` and paste
 `CODEX_TASK_PROMPT.txt` into Codex. Repo root `AGENTS.md` specifies required
 formal-verification and research-quality rules. GitHub PRs and CI runs should
@@ -98,9 +107,12 @@ be treated as the durable record, not ChatGPT chat state. Overleaf may import
 
 ## Lean verification status
 
-**Local verification: 28 Python tests pass; Lean 4.20.0 `lake build` passes;
+**Local verification: 58 Python tests pass; Lean 4.20.0 `lake build` passes;
 all 21 theorem axiom audits pass.** The static 15%-22% and two-date MOT
 1/12-1/4 bounds have compiled Lean certificates over all real feasible laws.
+Those laws allow zero masses. Equivalence to a full-support reference measure
+requires positive masses and changes endpoint attainment into infimum/supremum
+for these two examples; see [the explicit demonstration](research/dynamic_coherence.md).
 
 See [verification scope](research/lean_verification_scope.md) and
 [run evidence](outputs/QA.md) for actual build results and accepted foundations.
@@ -114,5 +126,8 @@ Exact witnesses are in [readable tables](research/rational_certificates.md) and
 checks the committed witnesses without invoking an optimizer. Candidate regeneration
 with `python scripts/generate_certificates.py` invokes SciPy and then requires every
 exact check to pass. The historical `MANIFEST.sha256` describes the imported handoff,
-not subsequent commits. The supplied PDF is a handoff artifact; current manuscript
-changes require a fresh LaTeX build.
+not subsequent commits. The supplied PDF is preserved as
+`manuscript/historical/handoff-v0.2.pdf`. Current builds go to
+`outputs/manuscript-build/` and the manuscript CI artifact, with compiler logs,
+input/PDF SHA256 hashes and extracted-text checks. These are draft review
+artifacts; no manuscript release or publication is performed.

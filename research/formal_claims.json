@@ -1,0 +1,25 @@
+{
+  "S-01": [
+    "ParityOT.Static.sharp_bounds",
+    "ParityOT.Static.pathwise",
+    "ParityOT.Static.qLo_feasible",
+    "ParityOT.Static.qHi_feasible",
+    "ParityOT.Static.qLo_attains",
+    "ParityOT.Static.qHi_attains",
+    "ParityOT.Static.hedge_costs",
+    "ParityOT.Static.all_feasible_bounds"
+  ],
+  "S-02": ["ParityOT.triple_le_ac", "ParityOT.triple_le_ab", "ParityOT.lower_subhedge"],
+  "S-03": ["ParityOT.weighted_bound"],
+  "S-04": ["ParityOT.bound_with_attainment"],
+  "M-01": [
+    "ParityOT.TwoDate.sharp_bounds",
+    "ParityOT.TwoDate.pathwise",
+    "ParityOT.TwoDate.qLo_feasible",
+    "ParityOT.TwoDate.qHi_feasible",
+    "ParityOT.TwoDate.qLo_attains",
+    "ParityOT.TwoDate.qHi_attains",
+    "ParityOT.TwoDate.hedge_costs",
+    "ParityOT.TwoDate.all_feasible_bounds"
+  ]
+}

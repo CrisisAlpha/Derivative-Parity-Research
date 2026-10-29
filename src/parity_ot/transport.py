@@ -1,4 +1,4 @@
-"""Finite-state optimal transport with optional full-filtration martingale constraints.
+"""Finite-state transport with optional natural-price-filtration martingale constraints.
 
 All prices are normalized present values of one-unit payoffs with discounting
 suppressed. Every quoted payoff is represented on the *same* settlement states.
@@ -75,29 +75,38 @@ def marginal_features(
         if not np.isclose(sum(margin.values()), 1.0, atol=1e-9):
             raise ValueError(f"Probabilities for date {t} do not sum to 1")
         for level, prob in margin.items():
-            rows.append(np.isclose(s[:, t], float(level)).astype(float))
+            rows.append((s[:, t] == float(level)).astype(float))
             target.append(float(prob))
     return np.asarray(rows), np.asarray(target)
 
 
 def martingale_features(states: NDArray[np.float64]) -> NDArray[np.float64]:
-    """Full-filtration martingale equalities for each observed price history.
+    """Martingale equalities on every history in the supplied natural price filtration.
 
     On a path s=(s_1,...,s_T), rows are
       1{s_1=x_1,...,s_t=x_t} * (s_{t+1}-s_t)
     for every t < T and every support history (x_1,...,x_t).
     Each row must have zero expectation under a martingale law.
+    "Full-history" means the entire supplied price prefix, not an arbitrary
+    filtration containing news or other unencoded observations. This helper
+    accepts price columns only. For additional information, construct its atom
+    masks and structural equalities separately; do not append nonprice columns
+    here and treat them as further price dates.
+    Prefixes are matched exactly; nearby distinct price nodes are not merged.
+    Zero-mass histories satisfy the undivided zero-gain equation automatically.
 
     This is NOT appropriate for unrelated political, sports or award outcomes.
     """
     s = np.asarray(states, dtype=float)
     if s.ndim != 2 or s.shape[1] < 2:
         raise ValueError("Need at least two monitoring dates")
+    if not len(s) or not np.isfinite(s).all():
+        raise ValueError("Need finite nonempty price states")
     rows = []
     for t in range(s.shape[1] - 1):
         observed_prefixes = np.unique(s[:, : t + 1], axis=0)
         for prefix in observed_prefixes:
-            mask = np.all(np.isclose(s[:, : t + 1], prefix), axis=1).astype(float)
+            mask = np.all(s[:, : t + 1] == prefix, axis=1).astype(float)
             rows.append(mask * (s[:, t + 1] - s[:, t]))
     return np.asarray(rows)
 
@@ -205,7 +214,10 @@ def conditional_ratio_interval(
 
     Given feasible probability vectors q, compute inf/sup E_q[numerator]/
     E_q[conditioning] with E_q[conditioning] >= min_denominator > 0.
-    Use numerator=1_{A and B} and conditioning=1_A for Q(B|A).
+    Both payoffs must be 0/1 event indicators, with numerator <= conditioning
+    on every state. Use numerator=1_{A and B}, conditioning=1_A for Q(B|A).
+    Generic payoff ratios are outside this event-specific API. The positive
+    denominator cutoff restricts the feasible model set explicitly.
 
     Variables y=q/E_q[A] and t=1/E_q[A] satisfy
       A^T y = 1, sum(y)=t, low_j t <= F_j^T y <= high_j t,
@@ -221,13 +233,17 @@ def conditional_ratio_interval(
     f = np.atleast_2d(np.asarray(feature_payoffs, dtype=float))
     lo = np.asarray(quote_lows, dtype=float).reshape(-1)
     hi = np.asarray(quote_highs, dtype=float).reshape(-1)
-    if num.shape != den.shape or f.shape[1] != n or len(lo) != len(f) or len(hi) != len(f):
+    if n == 0 or f.ndim != 2 or num.shape != den.shape or f.shape[1] != n or len(lo) != len(f) or len(hi) != len(f):
         raise ValueError("Payoff and quote dimensions do not align")
-    if min_denominator <= 0 or min_denominator > 1:
+    if not np.isfinite(min_denominator) or min_denominator <= 0 or min_denominator > 1:
         raise ValueError("min_denominator must be in (0,1]")
     if not (np.isfinite(num).all() and np.isfinite(den).all() and
             np.isfinite(f).all() and np.isfinite(lo).all() and np.isfinite(hi).all()):
         raise ValueError("All input numbers must be finite")
+    if not (np.isin(num, [0, 1]).all() and np.isin(den, [0, 1]).all()):
+        raise ValueError("Conditional payoffs must be 0/1 event indicators")
+    if np.any(num > den):
+        raise ValueError("Numerator event must be a subset of the conditioning event")
     if np.any(lo > hi):
         raise ValueError("Unordered quote interval")
     exact = np.isclose(lo, hi, atol=1e-12, rtol=0)

@@ -28,6 +28,12 @@ snapshots of all legs. Verify whether bids/asks are actual executable orders.
 A token paying a dollar on `A AND B` has payoff `1_A 1_B`.
 Its price under a normalized common measure is `Q(A AND B)`.
 A conditional probability `Q(B | A)` equals `Q(A AND B) / Q(A)` if `Q(A)>0`.
+This is an established identity awaiting Lean formalization, not a conjecture.
+The event-specific `conditional_ratio_interval` API requires both payoff vectors
+to be 0/1 indicators and the numerator event to be a subset of the conditioning
+event on every state; a finite positive denominator cutoff is enforced. It is
+not an optimizer for arbitrary payoff ratios. Its quote constraints and both
+events must use the same settlement states and common pricing measure.
 A digital claim conditional on `A` may instead void, refund or become
 untradeable when `A` is false; this is a different payoff. Settlement code and
 venue documentation, not naming conventions, determine the correct payoff.
