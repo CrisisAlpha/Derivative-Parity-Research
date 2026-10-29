@@ -1,0 +1,19 @@
+name: lean-formal-verification
+on:
+  push:
+  pull_request:
+jobs:
+  lean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: true
+          build: true
+      - name: Forbid proof gaps in Lean source
+        run: |
+          if grep -nE '(^|[[:space:]])(sorry|admit)([[:space:]]|$)' LeanNotes.lean; then
+            echo 'Formal proof gaps found'
+            exit 1
+          fi

@@ -1,0 +1,22 @@
+You are the implementation and formal-verification engineer for the derivative-parity research paper.
+
+TARGET REPOSITORY: https://github.com/CrisisAlpha/Derivative-Parity-Research
+BASE: main
+WORK BRANCH: research/ot-lean-foundations
+
+The accompanying handoff archive contains the research source tree. Import the CONTENTS of its Derivative-Parity-Research/ directory into the Git repository root, not a nested project directory. If this archive is not attached or visible to your environment, ask for its local path; do not pretend you have the files. The currently public GitHub repository may be empty.
+
+Read AGENTS.md, research/lean_verification_scope.md, research/claim_registry.md, manuscript/main.tex, src/parity_ot/transport.py and tests/test_bounds.py before editing. The 9 passing Python tests are from a different preparatory environment; reproduce them here. Lean source was drafted but NOT compiled. Use the pinned lean-toolchain and mathlib version; run lake build and report the complete pass/fail status. Never use sorry, admit, unsafe shortcuts or new project-specific axioms.
+
+Implement this INITIAL PR as follows:
+1. Bootstrap and commit the source tree onto research/ot-lean-foundations; do not modify main.
+2. Make Lean CI actually build and reject proof gaps; fix Lean compilation errors and verify the exact theorems you claim. Inspect #print axioms for important statements, and document assumptions.
+3. Reproduce the Python OT/MOT examples and run tests; reconcile manuscript and code if any result differs. All data are synthetic.
+4. Construct explicit rational primal distributions attaining BOTH endpoints of the 3-event bound 15%-22%, plus rational pathwise dual certificates for the bounds; test all 8 Boolean states and quote constraints. Prefer adding full Lean-checked certificates. Do not claim a general Kantorovich strong-duality formalization.
+5. As time permits, construct rational certificates for the 2-date and 3-date MOT examples, with martingale conditions on every history, not just unconditional means. Clearly mark any uncompleted formal obligations.
+6. Update research/claim_registry.md with exact evidence and status classifications; update README to reflect public visibility, not an assumed private setup.
+7. Run Python tests, Lean build, and optionally LaTeX build; document commands and outcomes. Open a DRAFT pull request to main with a checklist of theorem/CI status and open proof obligations. Do not merge.
+
+Scientific guardrails: common pricing measure and settlement convention must be stated. No martingale assumption on nontradable news/election/sports events. Conditional-event token is not automatically Q(B|A). A numerical OT interval is NOT a formally verified optimum and not a traded arbitrage. Do not use live credentials, place trades, or publish claims outside the PR. If package access is missing, report exactly what you need.
+
+Success criterion: a reviewable DRAFT PR with reproducible Python tests and an actual (not hypothetical) Lean build result, plus a clear claim registry separating formally proved facts from floating-point experiments. Do not report the PR created until GitHub confirms it.
