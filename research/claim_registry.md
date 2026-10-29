@@ -3,8 +3,10 @@
 As of **2026-10-29 (Asia/Hong_Kong)**: local Python verification and the pinned
 Lean build **PASS**. The initial 9 tests were independently reproduced; the
 expanded suite passes 28 tests. `lake build` and the 21-declaration axiom audit
-both exit 0. GitHub CI status is recorded separately; local success is not a
-claim that remote CI has run. All scenario data are synthetic.
+both exit 0. GitHub independently confirmed passing
+[Python CI](https://github.com/CrisisAlpha/Derivative-Parity-Research/actions/runs/40860564196)
+and [Lean CI](https://github.com/CrisisAlpha/Derivative-Parity-Research/actions/runs/40860564091)
+at implementation commit `32077c4`. All scenario data are synthetic.
 
 | ID | Exact claim | Status | Evidence and boundary |
 | --- | --- | --- | --- |

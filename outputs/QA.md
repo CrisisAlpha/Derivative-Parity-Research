@@ -1,4 +1,4 @@
-# Reproduction and verification record ? 2026-10-29 (Asia/Hong_Kong)
+# Reproduction and verification record - 2026-10-29 (Asia/Hong_Kong)
 
 ## Actual local outcomes
 
@@ -84,6 +84,16 @@ GitHub initially confirmed a public, completely empty repository: no commits or
 branches, including no `main`. The research history has an empty root commit
 `d38727a` followed by the source import and implementation. No `main` was created
 or modified. Creating an empty `main` at that exact root commit requires resolving
-the user's explicit ?do not modify main? constraint before a draft PR can exist.
-GitHub CI and draft-PR links will be recorded after GitHub confirms them; local
-success above does not stand in for remote CI status.
+the user's explicit "do not modify main" constraint before a draft PR can exist.
+GitHub confirmed both push-triggered CI runs **PASS** for implementation commit
+`32077c46880e81bd7f0492a7a53e476677681ab5`:
+
+- [Python tests](https://github.com/CrisisAlpha/Derivative-Parity-Research/actions/runs/40860564196)
+- [Lean build and axiom audit](https://github.com/CrisisAlpha/Derivative-Parity-Research/actions/runs/40860564091)
+
+The Lean job log explicitly shows `Built StaticCertificate`, `Built TwoDateCertificate`,
+`Built LeanNotes`, `Build completed successfully`, and `Axiom allowlist PASS (21 declarations)`.
+These are remote Linux results in addition to the local Windows results above.
+The subsequent evidence-only commit updates documentation, not the verified proof/code files.
+The draft PR has not been created: approval to create the missing empty `main`
+base is pending. No `main` ref has been created or modified by this work.
