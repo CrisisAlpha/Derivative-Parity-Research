@@ -43,6 +43,11 @@ full-support `P` are **(3/20,11/50)**. The lower and upper numbers are an
 **infimum and supremum**, not a minimum and maximum in that class. This also
 makes the fixed-denominator conditional interval **(3/8,11/20)** in that class.
 
+The same strict bounds follow directly from hedge slack: at 010 the lower
+hedge `AB+BC-B` is -1 while ABC is 0, and at 101 the upper hedge AC is 1
+while ABC is 0. Positive mass at these atoms makes the corresponding
+expectation inequalities strict.
+
 Explicitly, for `0 < t < 1`,
 
     q_t = (1-t) q^- + t q^+,

@@ -3,10 +3,14 @@
 ## Scientific referee follow-up
 
 The findings P0-A/P0-B/P0-C/P1 in the user's task were checked against the actual
-source and addressed on `research/ot-lean-foundations`. The separately named
-`PR1_SCIENTIFIC_REVIEW.md` attachment was not visible in the workspace, Downloads,
-Documents or PR discussion; its local path was requested. No claim is made to
-have read that missing file or exhausted additional findings it may contain.
+source and addressed on `research/ot-lean-foundations`. After initially being
+unavailable, the complete `PR1_SCIENTIFIC_REVIEW.md` was supplied at the workspace
+root and read against the named sources. The original is preserved in
+`research/reviews/PR1_SCIENTIFIC_REVIEW.md`; the finding-by-finding response and
+provenance are in `research/reviews/PR1_RESPONSE.md`. This supersedes the earlier
+missing-attachment limitation. The review targets `3756fa88`, not the revised
+head; a fresh scientific review is still required. Its independent BigInt audit
+is the referee's reported evidence, distinct from our Python and Lean runs.
 
 | Check | Actual local outcome |
 | --- | --- |
