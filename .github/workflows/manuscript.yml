@@ -7,8 +7,11 @@ permissions:
 jobs:
   latex:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -26,7 +29,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: manuscript-review-${{ github.sha }}
+          name: manuscript-review-${{ github.event.pull_request.head.sha || github.sha }}
           path: outputs/manuscript-build/
           if-no-files-found: error
           retention-days: 14
