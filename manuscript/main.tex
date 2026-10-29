@@ -24,8 +24,9 @@ dynamic self-financing hedging is central. Three reproducible \emph{synthetic}
 examples yield: a three-event intersection price in $[0.15,0.22]$; a
 rally-then-decline price in $[1/12,1/4]$ under martingale constraints, versus
 $[0,1/2]$ under ordinary couplings; and a three-date
-rally-decline-rebound price in $[0,1/16]$ versus $[0,1/4]$. These numerical
-examples are demonstrations rather than claims of new theoretical results.
+rally-decline-rebound price in $[0,1/16]$ versus $[0,1/4]$. Explicit rational
+primal and pathwise dual certificates certify these finite examples.
+They are demonstrations rather than claims of new theoretical results.
 We state a falsifiable empirical research agenda for assessing interval
 contraction and executable violations using settlement-aligned cross-market data.
 \end{abstract}
@@ -86,12 +87,21 @@ Let $q=Q(A\cap B\cap C)$. Inclusion-exclusion and monotonicity imply
 \begin{equation}
 0.15=p_{AB}+p_{BC}-p_B\le q\le p_{AC}=0.22.
 \end{equation}
-These bounds are sharp: the attached LP produces feasible eight-state
-couplings at both endpoints and certifies the dual inequalities
+These bounds are sharp: explicit rational eight-state distributions attain
+both endpoints, and exact arithmetic checks the dual inequalities
 \begin{equation}
 \one_{AB}+\one_{BC}-\one_B\le\one_{ABC}\le\one_{AC}.
 \end{equation}
-The observed $p_{AB}=0.40$ fixes the conditioning denominator, hence
+In lexicographic state order $000,001,010,011,100,101,110,111$, the endpoint
+mass vectors are
+\[
+q^-=(17,8,0,15,13,7,25,15)/100,\qquad
+q^+=(10,15,7,8,20,0,18,22)/100.
+\]
+Both are nonnegative, sum to one and satisfy all six quote equations.
+No martingale assumption is made for these Boolean events, including
+nontradable news, election or sports outcomes.
+The synthetic input $p_{AB}=0.40$ fixes the conditioning denominator, hence
 $Q(C\mid A\cap B)\in[0.375,0.55]$. With only the three marginals,
 the interval for $Q(ABC)$ is $[0,0.45]$. With $AB$ and $BC$ added,
 it shrinks to $[0.15,0.30]$.
@@ -125,7 +135,7 @@ so $z\le1/4$ and $w\le1/4$. Consequently
 $u+v\le z\le1/4$ and
 $3(u+v)\ge3u+2v\ge1/4$, yielding
 $1/12\le u+v\le1/4$.
-For the lower endpoint, take the conditional-row masses
+For the lower endpoint, take the joint row masses (not conditional probabilities)
 $(u,v,w,z)=(1/12,0,1/4,1/6)$; for the upper endpoint take
 $(0,1/4,0,1/4)$. Subtracting these rows from the respective column
 marginals yields nonnegative complementary rows. Since the unconditional
@@ -192,8 +202,11 @@ state, we require for every observed history $s_{1:t}$,
 \sum_{\omega\in\Omega}q(\omega)\,
 \one_{\{S_{1:t}=s_{1:t}\}}(S_{t+1}-S_t)=0,\quad t=1,2.
 \end{equation}
-The code verifies primal feasibility, pointwise dual certificates and
-numerical attainment at each endpoint. The inequality is a discrete
+The committed rational certificates verify primal feasibility, pointwise dual
+inequalities on all 48 paths and exact attainment at each endpoint. All ten
+full-history zero-gain equations are checked, including histories with zero
+mass. These three-date certificates are checked in Python rational arithmetic;
+they are not Lean-checked. The inequality is a discrete
 monitoring result only; continuously monitored crossings need a
 different state space and additional assumptions.
 For comparison, the price of touching 130 at any of the \emph{three}
@@ -240,6 +253,18 @@ copula baselines. Report lack of identification when the interval remains wide.
 No live order books or venue-level claims have been analyzed in this note.
 All market inputs and numeric results are synthetic. The package is
 research software, not a trading system or investment recommendation.
+
+\section{Verification boundary}
+The exact witness tables and dual coefficients are recorded in
+\texttt{research/rational\_certificates.md}, with reproducible checks in
+\texttt{tests/test\_certificates.py}. A floating-point solver is used only
+to propose candidate witnesses; rational reconstruction must pass every exact
+constraint before being accepted. Lean 4.20.0 compiles the static three-event and two-date MOT sharp-bound
+certificates over all real feasible laws; the audited dependencies are only
+propositional extensionality, classical choice and quotient soundness.
+The claim register records exact theorem names and build evidence. No general
+Kantorovich or martingale strong-duality theorem, verified SciPy implementation,
+continuous-time extension, or executable traded arbitrage is claimed.
 
 % Self-contained bibliography for local builds without a BibTeX executable.
 % references.bib is also supplied for later Overleaf/BibTeX migration.

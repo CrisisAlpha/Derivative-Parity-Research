@@ -10,10 +10,9 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           auto-config: true
-          build: true
-      - name: Forbid proof gaps in Lean source
-        run: |
-          if grep -nE '(^|[[:space:]])(sorry|admit)([[:space:]]|$)' LeanNotes.lean; then
-            echo 'Formal proof gaps found'
-            exit 1
-          fi
+          build: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build all proofs and audit kernel dependencies
+        run: python scripts/check_lean.py

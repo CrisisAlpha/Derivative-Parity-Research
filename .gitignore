@@ -12,3 +12,4 @@ __pycache__/
 .blg
 .synctex.gz
 .ipynb_checkpoints/
+.lake/

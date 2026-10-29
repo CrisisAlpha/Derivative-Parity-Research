@@ -1,10 +1,10 @@
 # Derivative Parity Research: Conditional and Path-Dependent Event Contracts
 
-**Status: research sandbox, v0.1 (October 29, 2026).** This directory is a
-self-contained GitHub-ready research module intended to join the larger
-"Mathematical Parity Between Perpetual Contracts, Binary Event Predictions,
-and Option Surfaces" project. It does **not** replace previously developed
-workspace materials and is undergoing GitHub publication and formal verification.
+**Status: public research repository, initial PR preparation (October 29, 2026).**
+The source tree is imported at the repository root from the v0.2 handoff.
+All examples are synthetic. See the [claim register](research/claim_registry.md)
+for the distinction between compiled Lean theorems, exact rational certificates,
+floating-point experiments and open research hypotheses.
 
 ## Question
 
@@ -33,7 +33,10 @@ arbitrage in an exchange.
 python -m pip install -e '.[test,research]'
 python -m pytest -q
 python -m parity_ot.examples
+python -m parity_ot.certificates
 python scripts/render_results.py
+python scripts/execute_notebooks.py
+python scripts/check_lean.py
 ```
 
 The package assumes a Python environment with NumPy and SciPy; rendering also
@@ -65,9 +68,9 @@ requires Matplotlib. If installation is unavailable, setting
    dynamically tradable, appropriately discounted underlying.
 2. A quoted intersection token `A & B` is not a normalized claim paying
    `P(B|A)`; the latter is a ratio and requires `P(A)>0`.
-3. The static LP is a common-payoff/no-arbitrage *consistency test* under
-   market completeness assumptions; inconsistent settlement rules or
-   different discounting may explain apparent parity gaps.
+3. The static LP is a *consistency test* under a common pricing measure,
+   numeraire and settlement convention; market completeness is not required.
+   Inconsistent settlement rules or different discounting may explain apparent gaps.
 4. Quote bands, latency, displayed depth, slippage, fee schedules, shorting
    restrictions and settlement delays must be modeled before using a dual
    hedge as an executable trade.
@@ -95,4 +98,21 @@ be treated as the durable record, not ChatGPT chat state. Overleaf may import
 
 ## Lean verification status
 
-`LeanNotes.lean` is a proposed Lean 4 finite-state formalization with a dedicated CI workflow. **It has not yet been compiled in this environment**; therefore no claims of machine-checked proof status are made. See `research/lean_verification_scope.md`. Formal numerical optimality and martingale results remain open verification tasks.
+**Local verification: 28 Python tests pass; Lean 4.20.0 `lake build` passes;
+all 21 theorem axiom audits pass.** The static 15%-22% and two-date MOT
+1/12-1/4 bounds have compiled Lean certificates over all real feasible laws.
+
+See [verification scope](research/lean_verification_scope.md) and
+[run evidence](outputs/QA.md) for actual build results and accepted foundations.
+`StaticCertificate.lean` states the sharp 15%-22% finite bounds over real laws;
+`TwoDateCertificate.lean` states the two-date finite MOT bounds. Three-date
+examples have exact rational certificates, with Lean formalization still open.
+Neither finite certification nor a numerical OT interval implies a traded arbitrage.
+
+Exact witnesses are in [readable tables](research/rational_certificates.md) and
+`data/synthetic/rational_certificates.json`. `python -m parity_ot.certificates`
+checks the committed witnesses without invoking an optimizer. Candidate regeneration
+with `python scripts/generate_certificates.py` invokes SciPy and then requires every
+exact check to pass. The historical `MANIFEST.sha256` describes the imported handoff,
+not subsequent commits. The supplied PDF is a handoff artifact; current manuscript
+changes require a fresh LaTeX build.

@@ -1,10 +1,11 @@
-import Mathlib
+import StaticCertificate
+import TwoDateCertificate
 
 /-!
 Finite-state event parity, with no external axioms and no `sorry`.
-All statements below concern Boolean settlements and rational arithmetic.
-This module does not claim to formalize optimality of LP solvers, strong
-Kantorovich duality, nor dynamic martingale transport.
+The foundational statements below concern Boolean settlements and rational arithmetic.
+Imported modules certify two specific finite instances over real-valued laws.
+No solver implementation or general Kantorovich/MOT strong duality is formalized.
 -/
 namespace ParityOT
 
@@ -23,7 +24,7 @@ theorem triple_le_ab (a b c : Bool) : triple a b c ≤ joint a b := by
   cases a <;> cases b <;> cases c <;> decide
 
 /-- The inclusion-exclusion lower hedge, pathwise on every settlement. -/
-theorem lower_superhedge (a b c : Bool) :
+theorem lower_subhedge (a b c : Bool) :
     (joint a b : Int) + (joint b c : Int) - (if b then 1 else 0) ≤ triple a b c := by
   cases a <;> cases b <;> cases c <;> decide
 
