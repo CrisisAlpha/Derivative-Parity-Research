@@ -1,0 +1,55 @@
+{
+  "dataset": "synthetic only; all prices in probability units",
+  "binary_three_event": {
+    "individual_marginals_only": [
+      0.0,
+      0.44999999999999996
+    ],
+    "plus_AB_BC": [
+      0.14999999999999997,
+      0.3
+    ],
+    "plus_AC": [
+      0.14999999999999997,
+      0.22
+    ],
+    "conditional_C_given_AB": [
+      0.3749999999999999,
+      0.5499999999999999
+    ]
+  },
+  "two_date_rally_decline": {
+    "ordinary_ot": [
+      0.0,
+      0.5
+    ],
+    "martingale_ot": [
+      0.08333333333333334,
+      0.25
+    ],
+    "martingale_ot_plus_joint_130_quote": [
+      0.1,
+      0.2
+    ]
+  },
+  "three_date_rally_decline_rebound": {
+    "ordinary_ot": [
+      0.0,
+      0.25
+    ],
+    "martingale_ot": [
+      0.0,
+      0.0625
+    ]
+  },
+  "three_date_discretely_monitored_upper_barrier_130": {
+    "ordinary_ot": [
+      0.25,
+      0.5
+    ],
+    "martingale_ot": [
+      0.275,
+      0.375
+    ]
+  }
+}

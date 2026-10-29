@@ -1,0 +1,11 @@
+$ python -m parity_ot.certificates
+binary: exact primal/dual PASS [3/20, 11/50]
+two_ot: exact primal/dual PASS [0, 1/2]
+two_mot: exact primal/dual PASS [1/12, 1/4]
+two_joint_mot: exact primal/dual PASS [1/10, 1/5]
+three_ot: exact primal/dual PASS [0, 1/4]
+three_mot: exact primal/dual PASS [0, 1/16]
+barrier_ot: exact primal/dual PASS [1/4, 1/2]
+barrier_mot: exact primal/dual PASS [11/40, 3/8]
+
+EXIT STATUS: 0

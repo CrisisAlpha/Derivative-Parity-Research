@@ -1,0 +1,16 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+*.egg-info/
+.venv/
+.aux
+.fls
+.fdb_latexmk
+.log
+.out
+.bbl
+.blg
+.synctex.gz
+.ipynb_checkpoints/
+.lake/
+outputs/manuscript-build/

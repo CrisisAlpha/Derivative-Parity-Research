@@ -1,0 +1,28 @@
+$ python scripts/check_lean.py
+Lean source policy PASS (5 files)
+Formal claim coverage PASS (5 claims, 21 theorems)
+Build completed successfully.
+'ParityOT.triple_le_ac' does not depend on any axioms
+'ParityOT.triple_le_ab' does not depend on any axioms
+'ParityOT.lower_subhedge' does not depend on any axioms
+'ParityOT.weighted_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.bound_with_attainment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.pathwise' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.qLo_feasible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.qHi_feasible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.qLo_attains' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.qHi_attains' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.hedge_costs' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.all_feasible_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.Static.sharp_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.pathwise' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.qLo_feasible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.qHi_feasible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.qLo_attains' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.qHi_attains' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.hedge_costs' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.all_feasible_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ParityOT.TwoDate.sharp_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Axiom allowlist PASS (21 declarations)
+
+EXIT STATUS: 0

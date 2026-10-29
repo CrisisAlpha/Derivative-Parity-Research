@@ -1,0 +1,16 @@
+{
+  "compiler": "tectonic 0.15.0Tectonic 0.15.0",
+  "compiler_exit": 0,
+  "pages": 6,
+  "embedded_images": 1,
+  "inputs_sha256": {
+    "manuscript/main.tex": "d89946dfb6a38f993c9e75acd701402c92d6eb61d59bed228127ed342dff457d",
+    "manuscript/references.bib": "00e4d38e1574be2fc8909c43a08f8cec616cffb2f21c2b47e866085871ed17c6",
+    "outputs/figures/transport_bound_comparison.png": "009c3d6560c86705d3bd0111c13ffbcbd4138764e8311184d9e9a68cd53a2aca"
+  },
+  "pdf_sha256": "7427fd712b3842f726ec616f5fa8a44e1e14588fd8ecf4c6d7e4f52d3c77c142",
+  "source_commit": "3756fa88b551e472a4c9155d9da9c55b5fd9a417",
+  "working_tree_dirty": true,
+  "verification": "PASS",
+  "purpose": "draft PR review artifact, not publication"
+}
